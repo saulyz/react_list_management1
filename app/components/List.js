@@ -51,14 +51,14 @@ class List extends React.Component {
         return (
             <div>
                 <h3>Room mates list</h3>
-                <ul>
+                <ul className="list">
                     {this.state.names.map((nameval) => {
                         return (
                             <li 
                                 name={nameval} 
                                 key={nameval} 
                                 onClick={this.selectName.bind(null, nameval)}
-                                className={this.state.selectedName === nameval ? 'selected' : ''}
+                                className={this.state.selectedName === nameval && 'selected'}
                             >
                                 {nameval} 
                             </li>

@@ -3,6 +3,10 @@ body {
     background: #ccc;
 }
 
+.list li {
+    cursor: pointer;
+}
+
 .selected {
     font-weight: bold;
 }

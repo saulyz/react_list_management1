@@ -1,5 +1,5 @@
 require('./style.css');
 
-var App = require('./components/App');
+import App from './components/App';
 
 ReactDOM.render(<App/>, document.getElementById('app'));
