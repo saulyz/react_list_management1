@@ -1,3 +1,5 @@
+import Item from './Item';
+
 class List extends React.Component {
     constructor(props) {
         super(props);
@@ -12,10 +14,10 @@ class List extends React.Component {
         this.updateInputValue = this.updateInputValue.bind(this);
     }
     
-    selectName(name) {
+    selectName(evt) {
         this.setState(() => {
             return {
-                selectedName: name
+                selectedName: evt.target.textContent
             }
         });
     }
@@ -37,7 +39,7 @@ class List extends React.Component {
                 }
             })
         }
-        }
+    }
 
     updateInputValue(evt) {
         this.setState(() => {
@@ -54,18 +56,11 @@ class List extends React.Component {
                 <ul className="list">
                     {this.state.names.map((nameval) => {
                         return (
-                            <li 
-                                name={nameval} 
-                                key={nameval} 
-                                onClick={this.selectName.bind(null, nameval)}
-                                className={this.state.selectedName === nameval && 'selected'}
-                            >
-                                {nameval} 
-                            </li>
+                            <Item key={nameval} name={nameval} selectItemEvent={this.selectName} selected={this.state.selectedName}></Item>
                         )
                     })}
                 </ul>
-                <p>Type and press Enter to add new name</p> 
+                <p><small>Type in and press Enter to add new name</small></p> 
                 <input 
                     type="text" 
                     name="newname" 
