@@ -51,8 +51,8 @@ class List extends React.Component {
 
     render() {
         return (
-            <div>
-                <h3>Room mates list</h3>
+            <div className="container">
+                <h3 className="title">Room mates list</h3>
                 <ul className="list">
                     {this.state.names.map((nameval) => {
                         return (
@@ -60,6 +60,7 @@ class List extends React.Component {
                         )
                     })}
                 </ul>
+                <hr className="separator"/>
                 <p><small>Type in and press Enter to add new name</small></p> 
                 <input 
                     type="text" 
@@ -72,6 +73,7 @@ class List extends React.Component {
                     onKeyPress={evt => {
                         this.addName(evt)
                     }}
+                    className="input-text w-450"
                 />
             </div>
         )
