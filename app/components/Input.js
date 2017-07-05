@@ -4,12 +4,9 @@ const Input = (props) => {
             <p><small>Type in and press Enter to add new name</small></p> 
             <input 
                 type="text" 
-                name="newname" 
+                name="newname"
+                ref={props.inputRef}
                 value={props.value}
-                onChange={evt => {
-                    evt.persist();
-                    props.changeValueEvent(evt);
-                }}
                 onKeyPress={evt => {
                     props.keyPressEvent(evt)
                 }}

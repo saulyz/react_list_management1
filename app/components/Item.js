@@ -1,3 +1,5 @@
+import SimpleState from 'react-simple-state';
+import simpleState from '../SimpleState'
 
 const Item = ( props ) => {
     return (
