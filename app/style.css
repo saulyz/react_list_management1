@@ -21,6 +21,7 @@ body {
 
 .selected {
     font-weight: bold;
+    color: #FF5733;
 }
 
 .separator {

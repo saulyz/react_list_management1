@@ -1,4 +1,5 @@
 import Item from './Item';
+import Input from './Input';
 
 class List extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class List extends React.Component {
                     inputValue: ''
                 }
             });
-            namesBeforeChange.push(newName);
+            namesBeforeChange.push(newName.trim());
             this.setState(() => {
                 return {
                     names: namesBeforeChange
@@ -61,20 +62,7 @@ class List extends React.Component {
                     })}
                 </ul>
                 <hr className="separator"/>
-                <p><small>Type in and press Enter to add new name</small></p> 
-                <input 
-                    type="text" 
-                    name="newname" 
-                    value={this.state.inputValue}
-                    onChange={evt => {
-                        evt.persist();
-                        this.updateInputValue(evt);
-                    }}
-                    onKeyPress={evt => {
-                        this.addName(evt)
-                    }}
-                    className="input-text w-450"
-                />
+                <Input value={this.state.inputValue} changeValueEvent={this.updateInputValue} keyPressEvent={this.addName}></Input>
             </div>
         )
     }
