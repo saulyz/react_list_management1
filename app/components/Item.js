@@ -1,14 +1,12 @@
-import SimpleState from 'react-simple-state';
-import simpleState from '../SimpleState'
-
 const Item = ( props ) => {
     return (
         <li 
             onClick={(evt) => {
                 evt.persist();
-                props.selectItemEvent(evt)}
+                props.selectItemEvent(props.position)}
             }
-            className={props.selected === props.name && 'selected'} >
+            key={props.position}  // avoid using props.key
+            className={props.selected === props.position && 'selected'} >
             {props.name} 
         </li>
     )

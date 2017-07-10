@@ -35,6 +35,8 @@
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-simple-state": "^1.0.0"
+    "react-redux": "^5.0.5",
+    "react-simple-state": "^1.0.0",
+    "redux": "^3.7.1"
   }
 }

@@ -1,64 +1,52 @@
 import Item from './Item'
 import Input from './Input'
-import SimpleState from 'react-simple-state'
-import simpleState from '../SimpleState'
+import { connect } from 'react-redux';
 
 class List extends React.Component {
     constructor(props) {
         super(props);
 
-        const listdata = simpleState.getState('listdata');
-
-        this.state = {
-            listdata: listdata
-        }
-
         this.selectName = this.selectName.bind(this);
-        this.addName = this.addName.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
     
-    componentWillMount() {
-        simpleState.subscribe('listdata', this, (nextlistdata) => {
-            this.setState({
-                listdata: nextlistdata
-            });
-        });
+    selectName(newItemSelected) {
+        // redux
+        this.props.selectItemDispatch(newItemSelected);
     }
 
-    componentWillUnmount() {
-        simpleState.unsubscribe('listdata', this);
-    }
-
-    selectName(evt) {
-        let listdataClone = this.state.listdata;
-        listdataClone.selectedName = evt.target.textContent;
-        simpleState.evoke('listdata', listdataClone);
-    }
-
-    addName(evt) {
+    addItem(evt) {
         if (evt.key == 'Enter') {
             console.log('New name submitted: ', evt.target.value);
-            let listdataClone = this.state.listdata;
-            listdataClone.names.push(evt.target.value);
-            simpleState.evoke('listdata', listdataClone);
-            console.log('After state change :', this.state.listdata);
-
+            let newItemEntered = evt.target.value;
             this.inputElement.value = '';   // clearing DOM element via React ref handle
+
+            // redux
+            this.props.addItemDispatch(newItemEntered);
         }
     }
 
+    removeItem(evt) {
+        // redux
+        dispatch({ type: 'REMOVE_ITEM'});
+    }
+ 
     render() {
         return (
             <div className="container">
                 <h3 className="title">Room mates list</h3>
                 <ul className="list">
-                    {this.state.listdata.names.map((nameval) => {
+                    {this.props.list.map((itemObj, i) => {
+                        console.log('List Item object', itemObj, i);
                         return (
                             <Item 
-                                key={nameval} 
-                                name={nameval} 
+                                key={i}
+                                position={i}
+                                name={itemObj.name} 
                                 selectItemEvent={this.selectName} 
-                                selected={this.state.listdata.selectedName}>
+                                removeItemEvent={this.removeItem}
+                                selected={this.props.select}>
                             </Item>
                         )
                     })}
@@ -66,11 +54,31 @@ class List extends React.Component {
                 <hr className="separator"/>
                 <Input 
                     inputRef={el => this.inputElement = el} 
-                    keyPressEvent={this.addName}>
+                    keyPressEvent={this.addItem}>
                 </Input>
             </div>
         )
     }
 }
 
-module.exports = List;
+// Connecting redux (mapping)
+
+const mapStateToProps = state => {
+    return {
+        list: state.list,
+        select: state.select
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addItemDispatch: (name) => {
+        dispatch({ type: 'ADD_ITEM', name: name})
+    },
+    selectItemDispatch: (index) => {
+        dispatch({ type: 'SELECT_ITEM', index: index})
+    }
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(List);
