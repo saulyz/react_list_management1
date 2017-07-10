@@ -15,3 +15,6 @@ To start the app use `npm run start`.
 * stage-3-decoupled-state-management
     * State management is disconnected from List component and is managed by lib react-simple-state
     * Components can subscribe to state changes and reflect to it
+* stage-4-redux-state-management
+    * State management moved to Redux
+    * Using several reducers for state data
