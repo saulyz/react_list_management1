@@ -27,9 +27,9 @@ class List extends React.Component {
         }
     }
 
-    removeItem(evt) {
+    removeItem(itemToRemove) {
         // redux
-        dispatch({ type: 'REMOVE_ITEM'});
+        this.props.removeItemDispatch(itemToRemove);
     }
  
     render() {
@@ -74,6 +74,9 @@ const mapDispatchToProps = dispatch => {
   return {
     addItemDispatch: (name) => {
         dispatch({ type: 'ADD_ITEM', name: name})
+    },
+    removeItemDispatch: (index) => {
+        dispatch({ type: 'REMOVE_ITEM', index: index})
     },
     selectItemDispatch: (index) => {
         dispatch({ type: 'SELECT_ITEM', index: index})

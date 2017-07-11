@@ -8,7 +8,10 @@ const list = (state = initialListState, action) => {
         case 'ADD_ITEM': 
             return [...state, {name: action.name}];
         case 'REMOVE_ITEM':
-            return state;
+            return [
+                ...state.slice(0, action.index),
+                ...state.slice(action.index + 1)
+            ];
         default:
             return state;
     }
