@@ -1,39 +1,59 @@
 import classNames from 'classnames';
 
-const Name = (props) => {
+const Name = ({item, selected, onClick}) => {
     return (
         <span 
-            className={classNames('item-name', props.selected === props.position && 'selected')}
-            onClick={props.onClick}>
-            {props.name}
+            className={classNames('item-name', selected && 'selected')}
+            onClick={onClick}>
+            {item.name}
         </span>
     )
 }
 
-const RemoveButton = (props) => {
-    return <button className={props.stylingClass} onClick={props.onClick}>Remove</button>
-}
+const Badge = ({content}) => (
+    <span className="item-box item-badge">{content}</span>
+)
 
-const Item = (props) => {
+const ActionButton = ({content, stylingClass, onClick, buttonType}) => {
+    let stylingClasses = ["item-box"];
+    if (typeof(buttonType) == 'undefined') {
+        stylingClasses = [...stylingClasses, "button-action-default"];
+    } else {
+        stylingClasses = [...stylingClasses, "button-action-" + buttonType];
+    }
     return (
-        <li 
-            key={props.position}  // avoid using props.key
-            >
-            <Name 
-                name={props.name}
-                position={props.position}
-                selected={props.selected}
-                className="item-name"
-                onClick={(e) => {props.selectItemEvent(props.position)}}
-            /> 
-            <span className="item-separator">|</span> 
-            <RemoveButton 
-                position={props.position}
-                stylingClass="default"
-                onClick={(e) => {props.removeItemEvent(props.position)}}
-            />
-        </li>
+        <button className={classNames(stylingClasses)} onClick={onClick}>{content}</button>
     )
 }
+
+const BadgeKarma = ({item}) => {
+    const hasKarmaPoints = item.karma;
+    if (hasKarmaPoints) {
+        return <Badge content={hasKarmaPoints} />;
+    } else {
+        return null;
+    }
+}
+
+const Item = ({item, onSelectItem, onAddKarma, onRemoveItem, selected }) => (
+    <li>
+        <Name 
+            item={item}
+            selected={selected}
+            onClick={(e) => {onSelectItem(e, item.id)}}
+        /> 
+        <BadgeKarma item={item} />
+        <span className="item-separator">|</span> 
+        <ActionButton 
+            content="Add karma"
+            onClick={(e) => {onAddKarma(item.id)}}
+        />
+        <ActionButton 
+            content="Remove"
+            buttonType="primary"
+            onClick={(e) => {onRemoveItem(item.id)}}
+        />
+    </li>
+)
 
 module.exports = Item;

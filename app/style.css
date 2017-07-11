@@ -26,6 +26,17 @@ body {
     cursor: pointer;
 }
 
+.item-box {
+    margin: 0 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.item-badge {
+    background-color: #ddd;
+}
+
 .selected {
     font-weight: bold;
     color: #FF5733;
@@ -47,6 +58,18 @@ body {
     font-weight: bold;
     border: 0;
     border-radius: 3px;
+}
+
+.button-action-default {
+    border: 0;
+    color: white;
+    background-color: #999;
+}
+
+.button-action-primary {
+    border: 0;
+    color: white;
+    background-color: #666;
 }
 
 /* Helpers */

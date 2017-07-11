@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
 import list from './list'
-import select from './select'
 
 const listApp = combineReducers({
-  list,
-  select
+  list
 })
 
 export default listApp

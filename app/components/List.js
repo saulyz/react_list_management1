@@ -6,56 +6,46 @@ class List extends React.Component {
     constructor(props) {
         super(props);
 
-        this.selectName = this.selectName.bind(this);
-        this.addItem = this.addItem.bind(this);
-        this.removeItem = this.removeItem.bind(this);
+        this.state = {
+            selected: null
+        }
+
+        this.selectItem = this.selectItem.bind(this);
     }
     
-    selectName(newItemSelected) {
-        // redux
-        this.props.selectItemDispatch(newItemSelected);
+    selectItem(evt, itemId) {
+        this.setState({
+            selected: itemId
+        })
     }
 
-    addItem(evt) {
-        if (evt.key == 'Enter') {
-            console.log('New name submitted: ', evt.target.value);
-            let newItemEntered = evt.target.value;
-            this.inputElement.value = '';   // clearing DOM element via React ref handle
-
-            // redux
-            this.props.addItemDispatch(newItemEntered);
-        }
-    }
-
-    removeItem(itemToRemove) {
-        // redux
-        this.props.removeItemDispatch(itemToRemove);
-    }
- 
     render() {
         return (
             <div className="container">
                 <h3 className="title">Room mates list</h3>
                 <ul className="list">
-                    {this.props.list.map((itemObj, i) => {
-                        console.log('List Item object', itemObj, i);
-                        return (
-                            <Item 
-                                key={i}
-                                position={i}
-                                name={itemObj.name} 
-                                selectItemEvent={this.selectName} 
-                                removeItemEvent={this.removeItem}
-                                selected={this.props.select}>
-                            </Item>
-                        )
-                    })}
+                    {console.log('Current list:', this.props.list)}
+                    {this.props.list.map(item =>
+                        <Item 
+                            key={item.id}
+                            item={item}
+                            onSelectItem={this.selectItem}
+                            onAddKarma={this.props.addKarma}
+                            onRemoveItem={this.props.removeItem}
+                            selected={this.state.selected === item.id} 
+                        />
+                    )}
                 </ul>
                 <hr className="separator"/>
                 <Input 
                     inputRef={el => this.inputElement = el} 
-                    keyPressEvent={this.addItem}>
-                </Input>
+                    keyPressEvent={(e) => {
+                        if (e.key == 'Enter') {
+                            this.props.addItem(e.target.value)
+                            this.inputElement.value = '';   // clearing DOM element via React ref handle
+                        }
+                    }}
+                />
             </div>
         )
     }
@@ -72,14 +62,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addItemDispatch: (name) => {
+    addItem: (name) => {
         dispatch({ type: 'ADD_ITEM', name: name})
     },
-    removeItemDispatch: (index) => {
-        dispatch({ type: 'REMOVE_ITEM', index: index})
+    removeItem: itemId => {
+        dispatch({ type: 'REMOVE_ITEM', id: itemId})
     },
-    selectItemDispatch: (index) => {
-        dispatch({ type: 'SELECT_ITEM', index: index})
+    addKarma: itemId => {
+        dispatch({ type: 'ADD_KARMA', id: itemId})
     }
   }
 }

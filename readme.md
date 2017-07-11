@@ -18,3 +18,4 @@ To start the app use `npm run start`.
 * stage-4-redux-state-management
     * State management moved to Redux
     * Using several reducers for state data
+    * Code optimization (major refactor for cleaner code)
